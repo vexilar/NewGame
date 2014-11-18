@@ -21,7 +21,7 @@ namespace NewGame.Components.Graphics
         
         public void Update(GameObject gameObject, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(defaultSprite, new Rectangle(gameObject.X, gameObject.Y, gameObject.X + 20, gameObject.Y + 20), Color.White);
+            spriteBatch.Draw(defaultSprite, new Rectangle(gameObject.X, gameObject.Y, 20, 20), Color.White);
         }
     }
 }

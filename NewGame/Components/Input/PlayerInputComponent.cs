@@ -16,9 +16,21 @@ namespace NewGame.Components.Input
             var keyState = Keyboard.GetState();
 
             //TODO: implement command pattern here http://gameprogrammingpatterns.com/command.html
-            if (keyState.IsKeyDown(Keys.D))
+            if (keyState.IsKeyDown(Keys.A))
+            {
+                gameObject.X -= WALK_ACCELERATION;
+            }
+            else if (keyState.IsKeyDown(Keys.D))
             {
                 gameObject.X += WALK_ACCELERATION;
+            }
+            else if (keyState.IsKeyDown(Keys.S))
+            {
+                gameObject.Y += WALK_ACCELERATION;
+            }
+            else if (keyState.IsKeyDown(Keys.W))
+            {
+                gameObject.Y -= WALK_ACCELERATION;
             }
         }
     }
