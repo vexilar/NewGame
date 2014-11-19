@@ -31,6 +31,9 @@ namespace NewGame
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromMilliseconds(100); 
         }
 
         /// <summary>
