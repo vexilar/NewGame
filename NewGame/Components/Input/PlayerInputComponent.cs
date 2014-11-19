@@ -9,7 +9,7 @@ namespace NewGame.Components.Input
 {
     public class PlayerInputComponent : IInputComponent
     {
-        private const int WALK_ACCELERATION = 1;
+        private const int WALK_ACCELERATION = 2;
         
         public void Update(GameObject gameObject)
         {
@@ -18,19 +18,40 @@ namespace NewGame.Components.Input
             //TODO: implement command pattern here http://gameprogrammingpatterns.com/command.html
             if (keyState.IsKeyDown(Keys.A))
             {
-                gameObject.X -= WALK_ACCELERATION;
+                if (gameObject.XVelocity >= 0)
+                {
+                    gameObject.XVelocity -= WALK_ACCELERATION;
+                    gameObject.YVelocity = 0;
+                }
             }
             else if (keyState.IsKeyDown(Keys.D))
             {
-                gameObject.X += WALK_ACCELERATION;
+                if (gameObject.XVelocity <= 0)
+                {
+                    gameObject.XVelocity += WALK_ACCELERATION;
+                    gameObject.YVelocity = 0;
+                }
             }
             else if (keyState.IsKeyDown(Keys.S))
             {
-                gameObject.Y += WALK_ACCELERATION;
+                if (gameObject.YVelocity <= 0)
+                {
+                    gameObject.YVelocity += WALK_ACCELERATION;
+                    gameObject.XVelocity = 0;
+                }
             }
             else if (keyState.IsKeyDown(Keys.W))
             {
-                gameObject.Y -= WALK_ACCELERATION;
+                if (gameObject.YVelocity >= 0)
+                {
+                    gameObject.YVelocity -= WALK_ACCELERATION;
+                    gameObject.XVelocity = 0;
+                }
+            }
+            else
+            {
+                gameObject.XVelocity = 0;
+                gameObject.YVelocity = 0;
             }
         }
     }

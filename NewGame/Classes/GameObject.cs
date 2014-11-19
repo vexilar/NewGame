@@ -13,6 +13,8 @@ namespace NewGame.Classes
     {
         public int X = 10;
         public int Y = 10;
+        public int XVelocity = 0;
+        public int YVelocity = 0;
 
         private IInputComponent _inputComponent;
         private IPhysicsComponent _physicsComponent;

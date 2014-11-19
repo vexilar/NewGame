@@ -10,7 +10,8 @@ namespace NewGame.Components.Physics
     {
         public void Update(GameObject gameObject, World world)
         {
-            // Physics code... (such as, don't let character walk off the edge of the world)
+            gameObject.X += gameObject.XVelocity;
+            gameObject.Y += gameObject.YVelocity;
         }
     }
 }
