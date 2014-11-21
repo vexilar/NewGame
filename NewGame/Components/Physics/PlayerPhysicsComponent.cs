@@ -10,8 +10,14 @@ namespace NewGame.Components.Physics
     {
         public void Update(GameObject gameObject, World world)
         {
-            gameObject.X += gameObject.XVelocity;
-            gameObject.Y += gameObject.YVelocity;
+            gameObject.Location.X += gameObject.Velocity.X;
+            gameObject.Location.Y += gameObject.Velocity.Y;
+
+            //TODO: make this configurable to lock/unlock camera
+            Camera.Location.X = gameObject.Location.X;
+            Camera.Location.Y = gameObject.Location.Y;
+
+            gameObject.RelativeLocation = Camera.GetRelativePosition(world.Viewport, gameObject.Location);
         }
     }
 }

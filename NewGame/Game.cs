@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,14 +44,16 @@ namespace NewGame
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-        {
+        {       
             var player = new GameObject(new PlayerInputComponent(), new PlayerPhysicsComponent(),
                 new PlayerGraphicsComponent(Content));
 
             gameObjects = new List<GameObject>();
             gameObjects.Add(player);
 
-            world = new World();
+            world = new World(this.GraphicsDevice.Viewport);
+
+            Tile.TileSetTexture = Content.Load<Texture2D>("part1_tileset.png");
 
             base.Initialize();
         }
@@ -89,6 +92,10 @@ namespace NewGame
             foreach (var gameObject in gameObjects)
                 gameObject.Update(world);
 
+            Camera.Update();
+
+            world.Update();
+
             base.Update(gameTime);
         }
 
@@ -98,9 +105,11 @@ namespace NewGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            //GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+
+            world.Draw(spriteBatch);
 
             foreach (var gameObject in gameObjects)
                 gameObject.Draw(spriteBatch);

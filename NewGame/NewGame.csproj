@@ -35,7 +35,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classes\Camera.cs" />
     <Compile Include="Classes\GameObject.cs" />
+    <Compile Include="Classes\MapCell.cs" />
+    <Compile Include="Classes\Tile.cs" />
+    <Compile Include="Classes\TileMap.cs" />
     <Compile Include="Components\Graphics\PlayerGraphicsComponent.cs" />
     <Compile Include="Components\Graphics\IGraphicsComponent.cs" />
     <Compile Include="Components\Input\PlayerInputComponent.cs" />
@@ -60,6 +64,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\HeroSS2H.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\part1_tileset.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Icon.ico" />

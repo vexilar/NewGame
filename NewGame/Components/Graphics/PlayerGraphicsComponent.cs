@@ -38,19 +38,19 @@ namespace NewGame.Components.Graphics
             if (currentSpriteCoords == null)
                 currentSpriteCoords = _walkingDownAnimationCoords.First;
             
-            if (gameObject.XVelocity > 0)
+            if (gameObject.Velocity.X > 0)
             {
                 currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingRightAnimationCoords);
             }
-            else if (gameObject.XVelocity < 0)
+            else if (gameObject.Velocity.X < 0)
             {
                 currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingLeftAnimationCoords);
             }
-            else if (gameObject.YVelocity < 0)
+            else if (gameObject.Velocity.Y < 0)
             {
                 currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingUpAnimationCoords);
             }
-            else if (gameObject.YVelocity > 0)
+            else if (gameObject.Velocity.Y > 0)
             {
                 currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingDownAnimationCoords);
             }
@@ -61,7 +61,8 @@ namespace NewGame.Components.Graphics
 
             Rectangle toDraw = currentSpriteCoords.Value;
 
-            spriteBatch.Draw(_spriteSheet, new Rectangle(gameObject.X, gameObject.Y, toDraw.Width, toDraw.Height), toDraw, Color.White);
+            spriteBatch.Draw(_spriteSheet, new Rectangle((int)gameObject.RelativeLocation.X - toDraw.Width / 2, (int)gameObject.RelativeLocation.Y - toDraw.Height / 2, 
+                toDraw.Width, toDraw.Height), toDraw, Color.White);
         }
 
         LinkedListNode<Rectangle> getNextOrFirst(LinkedListNode<Rectangle> current, LinkedList<Rectangle> list)

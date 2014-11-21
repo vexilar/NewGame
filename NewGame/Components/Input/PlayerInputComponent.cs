@@ -20,40 +20,40 @@ namespace NewGame.Components.Input
             //TODO: implement command pattern here http://gameprogrammingpatterns.com/command.html
             if (keyState.IsKeyDown(Keys.A))
             {
-                if (gameObject.XVelocity >= 0)
+                if (gameObject.Velocity.X >= 0)
                 {
-                    gameObject.XVelocity -= WALK_ACCELERATION;
-                    gameObject.YVelocity = 0;
+                    gameObject.Velocity.X -= WALK_ACCELERATION;
+                    gameObject.Velocity.Y = 0;
                 }
             }
             else if (keyState.IsKeyDown(Keys.D))
             {
-                if (gameObject.XVelocity <= 0)
+                if (gameObject.Velocity.X <= 0)
                 {
-                    gameObject.XVelocity += WALK_ACCELERATION;
-                    gameObject.YVelocity = 0;
+                    gameObject.Velocity.X += WALK_ACCELERATION;
+                    gameObject.Velocity.Y = 0;
                 }
             }
             else if (keyState.IsKeyDown(Keys.S))
             {
-                if (gameObject.YVelocity <= 0)
+                if (gameObject.Velocity.Y <= 0)
                 {
-                    gameObject.YVelocity += WALK_ACCELERATION;
-                    gameObject.XVelocity = 0;
+                    gameObject.Velocity.Y += WALK_ACCELERATION;
+                    gameObject.Velocity.X = 0;
                 }
             }
             else if (keyState.IsKeyDown(Keys.W))
             {
-                if (gameObject.YVelocity >= 0)
+                if (gameObject.Velocity.Y >= 0)
                 {
-                    gameObject.YVelocity -= WALK_ACCELERATION;
-                    gameObject.XVelocity = 0;
+                    gameObject.Velocity.Y -= WALK_ACCELERATION;
+                    gameObject.Velocity.X = 0;
                 }
             }
             else
             {
-                gameObject.XVelocity = 0;
-                gameObject.YVelocity = 0;
+                gameObject.Velocity.X = 0;
+                gameObject.Velocity.Y = 0;
             }
         }
     }
