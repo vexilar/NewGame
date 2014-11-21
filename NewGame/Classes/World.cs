@@ -17,7 +17,7 @@ namespace NewGame.Classes
         public World(Viewport viewport)
         {
             Viewport = viewport;
-            _previousCameraLocation = new Vector2(0, 0);
+            _previousCameraLocation = new Vector2(-1000, -1000);
             _worldMap = new TileMap(viewport);
         }
 

@@ -54,13 +54,13 @@ namespace NewGame.Classes
 
         public Rectangle Coords;
 
-        public MapRow(Vector2 location)
+        public MapRow(Vector2 location, TileMap tileMap)
         {
             _columns = new List<MapCell>();
 
-            Coords = new Rectangle((int)location.X, (int)location.Y, TileMap.Width, TileMap.Height);
+            Coords = new Rectangle((int)location.X, (int)location.Y, tileMap.Width, tileMap.Height);
 
-            for (int x = 0; x < TileMap.MapColumns; x++)
+            for (int x = 0; x < tileMap.MapColumns; x++)
             {
                 var columnLocation = new Vector2(Coords.X + (x * Tile.TILE_SIZE), Coords.Y);
                 _columns.Add(getMapCell(columnLocation));
@@ -93,6 +93,7 @@ namespace NewGame.Classes
     class MapRows
     {
         private List<MapRow> _rows;
+        private TileMap _tileMap;
 
         public List<MapRow> Rows 
         {
@@ -104,14 +105,14 @@ namespace NewGame.Classes
         {
             var newCoords = _rows.Last().Coords;
             newCoords.Offset(0, Tile.TILE_SIZE);
-            _rows.Add(new MapRow(new Vector2(newCoords.X, newCoords.Y)));
+            _rows.Add(new MapRow(new Vector2(newCoords.X, newCoords.Y), _tileMap));
         }
 
         public void AddTopRow()
         {
             var newCoords = _rows.First().Coords;
             newCoords.Offset(0, -Tile.TILE_SIZE);
-            _rows.Insert(0, new MapRow(new Vector2(newCoords.X, newCoords.Y)));
+            _rows.Insert(0, new MapRow(new Vector2(newCoords.X, newCoords.Y), _tileMap));
         }
 
         public void RemoveBottomRow()
@@ -124,13 +125,14 @@ namespace NewGame.Classes
             _rows.Add(_rows.First());
         }
 
-        public MapRows(Rectangle viewableCoords)
+        public MapRows(TileMap tileMap)
         {
             _rows = new List<MapRow>();
+            _tileMap = tileMap;
 
-            for (int i = 0; i < TileMap.MapRows; i++)
+            for (int i = 0; i < tileMap.MapRows; i++)
             {
-                _rows.Add(new MapRow(new Vector2(viewableCoords.X, viewableCoords.Y + (i * Tile.TILE_SIZE))));
+                _rows.Add(new MapRow(new Vector2(tileMap.ViewableCoords.X, tileMap.ViewableCoords.Y + (i * Tile.TILE_SIZE)), tileMap));
             }
         }
     }
@@ -139,22 +141,22 @@ namespace NewGame.Classes
     {
         public MapRows RowsContainer;
 
-        public static int MapRows
+        public int MapRows
         {
-            get { return (Camera.ViewableHeight(_viewport) / Tile.TILE_SIZE); }
+            get { return (this.Height / Tile.TILE_SIZE); }
         }
-        public static int MapColumns
+        public int MapColumns
         {
-            get { return (Camera.ViewableWidth(_viewport) / Tile.TILE_SIZE); }
+            get { return (this.Width / Tile.TILE_SIZE); }
         }
 
-        public static int Width
+        public int Width
         {
-            get { return TileMap.MapColumns * Tile.TILE_SIZE; }
+            get { return this.ViewableCoords.Width; }
         }
-        public static int Height
+        public int Height
         {
-            get { return TileMap.MapRows * Tile.TILE_SIZE; }
+            get { return this.ViewableCoords.Height; }
         }
 
         public Rectangle ViewableCoords;
@@ -164,13 +166,21 @@ namespace NewGame.Classes
         public TileMap(Viewport viewport)
         {
             _viewport = viewport;
-            ViewableCoords = Camera.GetViewableCoords(_viewport);
-            RowsContainer = new MapRows(ViewableCoords);
+            ViewableCoords = this.GetViewableCoordsAndInflate();
+            RowsContainer = new MapRows(this);
+        }
+
+        public Rectangle GetViewableCoordsAndInflate()
+        {
+            var viewableCoords = Camera.GetViewableCoords(_viewport);
+            viewableCoords.Offset(-100, -100);
+            viewableCoords.Inflate(200, 200);
+            return viewableCoords;
         }
 
         public void Update()
         {
-            ViewableCoords = Camera.GetViewableCoords(_viewport);
+            ViewableCoords = this.GetViewableCoordsAndInflate();
 
             var upperLeftCell = RowsContainer.Rows.First().Columns.First();
             var bottomRightCell = RowsContainer.Rows.Last().Columns.Last();
