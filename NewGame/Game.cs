@@ -51,9 +51,7 @@ namespace NewGame
             gameObjects = new List<GameObject>();
             gameObjects.Add(player);
 
-            world = new World(this.GraphicsDevice.Viewport);
-
-            Tile.TileSetTexture = Content.Load<Texture2D>("part1_tileset.png");
+            world = new World(Content, this.GraphicsDevice.Viewport);
 
             base.Initialize();
         }

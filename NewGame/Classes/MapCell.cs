@@ -9,14 +9,12 @@ namespace NewGame.Classes
 {
     class MapCell
     {
-        public int TileID { get; set; }
-
         public Rectangle Coords;
 
-        public MapCell(int tileID, Rectangle coords)
+        public MapCell(Vector2 location)
         {
-            TileID = tileID;
-            Coords = coords;
+            Coords = new Rectangle((int) location.X, (int) location.Y,
+                TileMapEngine.TILE_SIZE, TileMapEngine.TILE_SIZE);
         }
 
         public Rectangle GetRelativeCoords(Viewport viewport)
