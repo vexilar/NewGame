@@ -4,56 +4,83 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 using NewGame.Classes;
+using Microsoft.Xna.Framework;
 
 namespace NewGame.Components.Input
 {
     public class PlayerInputComponent : IInputComponent
     {
-        //TODO: this should be passed in to this component.  Not sure where from yet -- I'm thinking stats are going to be another component
-        // so may have to implement message between components
-        private const int WALK_ACCELERATION = 10;
-        
+        private KeyboardState CurrentKeyState;
+        private KeyboardState PreviousKeyState;
+
         public void Update(GameObject gameObject)
         {
-            var keyState = Keyboard.GetState();
+            PreviousKeyState = CurrentKeyState;
+            CurrentKeyState = Keyboard.GetState();
 
-            //TODO: implement command pattern here http://gameprogrammingpatterns.com/command.html
-            if (keyState.IsKeyDown(Keys.A))
+            if (CurrentKeyState.IsKeyDown(Keys.A))
             {
-                if (gameObject.Velocity.X >= 0)
+                if (CurrentKeyState.IsKeyDown(Keys.W))
                 {
-                    gameObject.Velocity.X -= WALK_ACCELERATION;
-                    gameObject.Velocity.Y = 0;
+                    gameObject.Velocity = new Vector2(-100, -100);
+                }
+                else if (CurrentKeyState.IsKeyDown(Keys.S))
+                {
+                    gameObject.Velocity = new Vector2(-100, 100);
+                }
+                else
+                {
+                    gameObject.Velocity = new Vector2(-150, 0);
                 }
             }
-            else if (keyState.IsKeyDown(Keys.D))
+            else if (CurrentKeyState.IsKeyDown(Keys.S))
             {
-                if (gameObject.Velocity.X <= 0)
+                if (CurrentKeyState.IsKeyDown(Keys.A))
                 {
-                    gameObject.Velocity.X += WALK_ACCELERATION;
-                    gameObject.Velocity.Y = 0;
+                    gameObject.Velocity = new Vector2(-100, 100);
+                }
+                else if (CurrentKeyState.IsKeyDown(Keys.D))
+                {
+                    gameObject.Velocity = new Vector2(100, 100);
+                }
+                else
+                {
+                    gameObject.Velocity = new Vector2(0, 150);
                 }
             }
-            else if (keyState.IsKeyDown(Keys.S))
+            else if (CurrentKeyState.IsKeyDown(Keys.D))
             {
-                if (gameObject.Velocity.Y <= 0)
+                if (CurrentKeyState.IsKeyDown(Keys.S))
                 {
-                    gameObject.Velocity.Y += WALK_ACCELERATION;
-                    gameObject.Velocity.X = 0;
+                    gameObject.Velocity = new Vector2(100, -100);
+                }
+                else if (CurrentKeyState.IsKeyDown(Keys.W))
+                {
+                    gameObject.Velocity = new Vector2(100, -100);
+                }
+                else
+                {
+                    gameObject.Velocity = new Vector2(150, 0);
                 }
             }
-            else if (keyState.IsKeyDown(Keys.W))
+            else if (CurrentKeyState.IsKeyDown(Keys.W))
             {
-                if (gameObject.Velocity.Y >= 0)
+                if (CurrentKeyState.IsKeyDown(Keys.A))
                 {
-                    gameObject.Velocity.Y -= WALK_ACCELERATION;
-                    gameObject.Velocity.X = 0;
+                    gameObject.Velocity = new Vector2(-100, -100);
+                }
+                else if (CurrentKeyState.IsKeyDown(Keys.D))
+                {
+                    gameObject.Velocity = new Vector2(100, -100);
+                }
+                else
+                {
+                    gameObject.Velocity = new Vector2(0, -150);
                 }
             }
             else
             {
-                gameObject.Velocity.X = 0;
-                gameObject.Velocity.Y = 0;
+                gameObject.Velocity = new Vector2(0, 0);
             }
         }
     }

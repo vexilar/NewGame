@@ -17,104 +17,75 @@ using NewGame.Components.Physics;
 
 namespace NewGame
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class NewGame : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         List<GameObject> gameObjects;
         World world;
+        Camera camera;
 
         public NewGame()
             : base()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            IsFixedTimeStep = true;
-            TargetElapsedTime = TimeSpan.FromMilliseconds(100); 
         }
-
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
+        
         protected override void Initialize()
         {       
-            var player = new GameObject(new PlayerInputComponent(), new PlayerPhysicsComponent(),
-                new PlayerGraphicsComponent(Content));
+            var player = new GameObject(new PlayerInputComponent()
+                       , new PlayerPhysicsComponent()
+                       , new PlayerGraphicsComponent(Content));
+
+            camera = new Camera(this.GraphicsDevice.Viewport);
+            camera.Clamp(player);
 
             gameObjects = new List<GameObject>();
             gameObjects.Add(player);
 
-            world = new World(Content, this.GraphicsDevice.Viewport);
+            //world = new World(Content, this.GraphicsDevice.Viewport);
 
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             foreach (var gameObject in gameObjects)
-                gameObject.Update(world);
+                gameObject.Update(world, gameTime);
 
-            Camera.Update();
-
-            world.Update();
+            //world.Update();
 
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
+            //Check out this link http://www.dreamincode.net/forums/topic/237979-2d-camera-in-xna/
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
+            
+            //world.Draw(spriteBatch);
+
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.End();
 
             spriteBatch.Begin();
-
-            world.Draw(spriteBatch);
 
             foreach (var gameObject in gameObjects)
                 gameObject.Draw(spriteBatch);
 
             spriteBatch.End();
 
-            base.Draw(gameTime);
         }
     }
 }

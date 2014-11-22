@@ -37,8 +37,6 @@
   <ItemGroup>
     <Compile Include="Classes\Camera.cs" />
     <Compile Include="Classes\GameObject.cs" />
-    <Compile Include="Classes\MapCell.cs" />
-    <Compile Include="Classes\TileMapEngine.cs" />
     <Compile Include="Components\Graphics\PlayerGraphicsComponent.cs" />
     <Compile Include="Components\Graphics\IGraphicsComponent.cs" />
     <Compile Include="Components\Input\PlayerInputComponent.cs" />

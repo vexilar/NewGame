@@ -13,7 +13,7 @@ namespace NewGame.Classes
     public class GameObject
     {
 
-        public Vector2 Location = new Vector2(0, 0);
+        public Vector2 Location = new Vector2(150,150);
         public Vector2 RelativeLocation = new Vector2(0, 0);
         public Vector2 Velocity = new Vector2(0, 0);
 
@@ -28,15 +28,16 @@ namespace NewGame.Classes
             _graphicsComponent = graphicsComponent;
         }
 
-        public void Update(World world)
+        public void Update(World world, GameTime gameTime)
         {
             _inputComponent.Update(this);
-            _physicsComponent.Update(this, world);
+            _physicsComponent.Update(this, world, gameTime);
+            _graphicsComponent.Update(this);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            _graphicsComponent.Update(this, spriteBatch);
+            _graphicsComponent.Draw(this, spriteBatch);
         }
     }
 }

@@ -8,64 +8,77 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NewGame.Classes
 {
-    static class Camera
+    public class Camera
     {
-        static public Vector2 Location = Vector2.Zero;
+        private Vector2 _position;
+        private Matrix _transform;
+        private GameObject _clampedObject;
+        private Viewport _viewPort;
 
-        public static int ViewableHeight(Viewport viewport)
+        public Vector2 Position
         {
-            return viewport.Height;
-        }
-
-        public static int ViewableWidth(Viewport viewport)
-        {
-            return viewport.Width;
-        }
-
-        public static void Update()
-        {
-            KeyboardState ks = Keyboard.GetState();
-
-            var speed = 10;
-
-            if (ks.IsKeyDown(Keys.Left))
+            get
             {
-                Camera.Location.X -= speed;
+                return _position;
             }
-
-            if (ks.IsKeyDown(Keys.Right))
+            set
             {
-                Camera.Location.X += speed;
-            }
-
-            if (ks.IsKeyDown(Keys.Up))
-            {
-                Camera.Location.Y -= speed;
-            }
-
-            if (ks.IsKeyDown(Keys.Down))
-            {
-                Camera.Location.Y += speed;
+                _position = value;
             }
         }
 
-        public static Rectangle GetViewableCoords(Viewport viewport)
+        public Matrix Transform
         {
-            var halfHeight = ViewableHeight(viewport) / 2;
-            var halfWidth = ViewableWidth(viewport) / 2;
-            var locationX = (int)Location.X;
-            var locationY = (int)Location.Y;
-
-            return new Rectangle(locationX - halfWidth, locationY - halfHeight,
-                                    viewport.Width,
-                                    viewport.Height);
+            get
+            {
+                return _transform;
+            }
+            set
+            {
+                _transform = value;
+            }
         }
 
-        public static Vector2 GetRelativePosition(Viewport viewport, Vector2 absolutePostion)
+        public GameObject ClampedObject
         {
-            var viewableCoords = GetViewableCoords(viewport);
-            
-            return new Vector2(absolutePostion.X - viewableCoords.X, absolutePostion.Y - viewableCoords.Y);
+            get
+            {
+                return _clampedObject;
+            }
+            set
+            {
+                _clampedObject = value;
+            }
+        }
+
+        public Viewport viewPort
+        {
+            get
+            {
+                return _viewPort;
+            }
+            set
+            {
+                _viewPort = value;
+            }
+        }
+
+        public Camera(Viewport viewport)
+        {
+            _position = Vector2.Zero;
+            _viewPort = viewport;
+        }
+
+        public void Update(GameObject gameObject)
+        {
+            //_transform = Matrix.CreateTranslation(gameObject.Location.X, gameObject.Location.Y, 0);
+            _transform = Matrix.CreateTranslation(0, 0, 0);
+        }
+
+        //Should take in IClampable, but for now just a game object
+        public void Clamp(GameObject gameObject)
+        {
+            ClampedObject = gameObject;
         }
     }
 }

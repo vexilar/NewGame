@@ -9,6 +9,7 @@ namespace NewGame.Components.Graphics
 {
     public interface IGraphicsComponent
     {
-        void Update(GameObject gameObject, SpriteBatch spriteBatch);
+        void Update(GameObject gameObject);
+        void Draw(GameObject gameObject, SpriteBatch spriteBatch);
     }
 }

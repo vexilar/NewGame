@@ -8,19 +8,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NewGame.Helpers;
+using System.Diagnostics;
 
 namespace NewGame.Components.Graphics
 {
     public class PlayerGraphicsComponent : IGraphicsComponent
     {
+        public Rectangle toDraw = new Rectangle();
+
         private Texture2D _spriteSheet;
         private LinkedList<Rectangle> _walkingUpAnimationCoords;
         private LinkedList<Rectangle> _walkingDownAnimationCoords;
         private LinkedList<Rectangle> _walkingLeftAnimationCoords;
         private LinkedList<Rectangle> _walkingRightAnimationCoords;
 
-        private LinkedListNode<Rectangle> currentSpriteCoords; 
-        
+        private LinkedListNode<Rectangle> currentSpriteCoords;
+
+        private Stopwatch AnimationTimer = new Stopwatch();
+        private float AnimationThreshhold = 150;
+        private bool Animate = false;
+
         public PlayerGraphicsComponent(ContentManager content)
         {
             _spriteSheet = content.Load<Texture2D>("HeroSS2H.png");
@@ -33,36 +40,60 @@ namespace NewGame.Components.Graphics
             _walkingUpAnimationCoords = spriteSheetParser.GetCoordsForAnimation(3, 0, 3, 3);
         }
         
-        public void Update(GameObject gameObject, SpriteBatch spriteBatch)
+        public void Update(GameObject gameObject)
         {
-            if (currentSpriteCoords == null)
-                currentSpriteCoords = _walkingDownAnimationCoords.First;
-            
-            if (gameObject.Velocity.X > 0)
+
+            if (!AnimationTimer.IsRunning)
             {
-                currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingRightAnimationCoords);
-            }
-            else if (gameObject.Velocity.X < 0)
-            {
-                currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingLeftAnimationCoords);
-            }
-            else if (gameObject.Velocity.Y < 0)
-            {
-                currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingUpAnimationCoords);
-            }
-            else if (gameObject.Velocity.Y > 0)
-            {
-                currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingDownAnimationCoords);
+                AnimationTimer.Start();
             }
             else
             {
-                currentSpriteCoords = currentSpriteCoords.List.First;
+                if (AnimationTimer.ElapsedMilliseconds > AnimationThreshhold)
+                {
+                    AnimationTimer.Stop();
+                    Animate = true;
+                }
             }
 
-            Rectangle toDraw = currentSpriteCoords.Value;
 
-            spriteBatch.Draw(_spriteSheet, new Rectangle((int)gameObject.RelativeLocation.X - toDraw.Width / 2, (int)gameObject.RelativeLocation.Y - toDraw.Height / 2, 
-                toDraw.Width, toDraw.Height), toDraw, Color.White);
+                if (currentSpriteCoords == null)
+                    currentSpriteCoords = _walkingDownAnimationCoords.First;
+
+                if (Animate)
+                {
+                if (gameObject.Velocity.X > 0)
+                {
+                    currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingRightAnimationCoords);
+                }
+                else if (gameObject.Velocity.X < 0)
+                {
+                    currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingLeftAnimationCoords);
+                }
+                else if (gameObject.Velocity.Y < 0)
+                {
+                    currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingUpAnimationCoords);
+                }
+                else if (gameObject.Velocity.Y > 0)
+                {
+                    currentSpriteCoords = getNextOrFirst(currentSpriteCoords, _walkingDownAnimationCoords);
+                }
+                else
+                {
+                    currentSpriteCoords = currentSpriteCoords.List.First;
+                }
+                Animate = false;
+                AnimationTimer.Reset();
+                AnimationTimer.Start();
+            }
+
+            toDraw = currentSpriteCoords.Value;
+
+        }
+
+        public void Draw(GameObject gameObject, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_spriteSheet, new Rectangle((int)gameObject.Location.X, (int)gameObject.Location.Y, toDraw.Width, toDraw.Height), toDraw, Color.White);
         }
 
         LinkedListNode<Rectangle> getNextOrFirst(LinkedListNode<Rectangle> current, LinkedList<Rectangle> list)
