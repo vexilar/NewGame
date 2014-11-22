@@ -1,0 +1,76 @@
+<TileMap xmlns="http://schemas.datacontract.org/2004/07/NewGame.Classes" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+	<Regions>
+		<MapRegion>
+			<Coords xmlns:a="http://schemas.datacontract.org/2004/07/Microsoft.Xna.Framework">
+				<a:Height>1000</a:Height>
+				<a:Width>1000</a:Width>
+				<a:X>-1000</a:X>
+				<a:Y>-1000</a:Y>
+			</Coords>
+			<Tile>
+				<TextureFileName>part1_tileset.png</TextureFileName>
+				<TextureLocation xmlns:a="http://schemas.datacontract.org/2004/07/Microsoft.Xna.Framework">
+					<a:Height>32</a:Height>
+					<a:Width>32</a:Width>
+					<a:X>0</a:X>
+					<a:Y>0</a:Y>
+				</TextureLocation>
+				<TextureName>background1</TextureName>
+			</Tile>
+		</MapRegion>
+		<MapRegion>
+			<Coords xmlns:a="http://schemas.datacontract.org/2004/07/Microsoft.Xna.Framework">
+				<a:Height>1000</a:Height>
+				<a:Width>1000</a:Width>
+				<a:X>-1000</a:X>
+				<a:Y>0</a:Y>
+			</Coords>
+			<Tile>
+				<TextureFileName>part1_tileset.png</TextureFileName>
+				<TextureLocation xmlns:a="http://schemas.datacontract.org/2004/07/Microsoft.Xna.Framework">
+					<a:Height>32</a:Height>
+					<a:Width>32</a:Width>
+					<a:X>32</a:X>
+					<a:Y>0</a:Y>
+				</TextureLocation>
+				<TextureName>background2</TextureName>
+			</Tile>
+		</MapRegion>
+		<MapRegion>
+			<Coords xmlns:a="http://schemas.datacontract.org/2004/07/Microsoft.Xna.Framework">
+				<a:Height>1000</a:Height>
+				<a:Width>1000</a:Width>
+				<a:X>0</a:X>
+				<a:Y>-1000</a:Y>
+			</Coords>
+			<Tile>
+				<TextureFileName>part1_tileset.png</TextureFileName>
+				<TextureLocation xmlns:a="http://schemas.datacontract.org/2004/07/Microsoft.Xna.Framework">
+					<a:Height>32</a:Height>
+					<a:Width>32</a:Width>
+					<a:X>64</a:X>
+					<a:Y>0</a:Y>
+				</TextureLocation>
+				<TextureName>background3</TextureName>
+			</Tile>
+		</MapRegion>
+		<MapRegion>
+			<Coords xmlns:a="http://schemas.datacontract.org/2004/07/Microsoft.Xna.Framework">
+				<a:Height>1000</a:Height>
+				<a:Width>1000</a:Width>
+				<a:X>0</a:X>
+				<a:Y>0</a:Y>
+			</Coords>
+			<Tile>
+				<TextureFileName>part1_tileset.png</TextureFileName>
+				<TextureLocation xmlns:a="http://schemas.datacontract.org/2004/07/Microsoft.Xna.Framework">
+					<a:Height>32</a:Height>
+					<a:Width>32</a:Width>
+					<a:X>96</a:X>
+					<a:Y>0</a:Y>
+				</TextureLocation>
+				<TextureName>background4</TextureName>
+			</Tile>
+		</MapRegion>
+	</Regions>
+</TileMap>

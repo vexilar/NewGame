@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NewGame.Components.Graphics;
 using NewGame.Components.Input;
@@ -11,10 +12,10 @@ namespace NewGame.Classes
 {
     public class GameObject
     {
-        public int X = 10;
-        public int Y = 10;
-        public int XVelocity = 0;
-        public int YVelocity = 0;
+
+        public Vector2 Location = new Vector2(0, 0);
+        public Vector2 RelativeLocation = new Vector2(0, 0);
+        public Vector2 Velocity = new Vector2(0, 0);
 
         private IInputComponent _inputComponent;
         private IPhysicsComponent _physicsComponent;
